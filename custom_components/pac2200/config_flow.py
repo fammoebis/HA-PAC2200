@@ -1,10 +1,10 @@
 import voluptuous as vol
 from homeassistant import config_entries
-from .const import DOMAIN
+from .const import DOMAIN, DEFAULT_PORT
 
 
 class Pac2200ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    VERSION = 1  # 🔥 WICHTIG!
+    VERSION = 1
 
     async def async_step_user(self, user_input=None):
         if user_input is not None:
@@ -17,6 +17,6 @@ class Pac2200ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema({
                 vol.Required("host"): str,
-                vol.Required("port", default=502): int,
+                vol.Required("port", default=DEFAULT_PORT): int,
             })
         )

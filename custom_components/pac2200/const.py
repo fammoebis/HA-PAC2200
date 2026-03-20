@@ -1,25 +1,33 @@
 DOMAIN = "pac2200"
 
 DEFAULT_PORT = 502
-SCAN_TIMEOUT = 0.3
 
 SENSORS = {
     "import_energy": {
         "name": "Import Energie",
+        "address": 342,
         "unit": "kWh",
-        "address": 0x0000,
-        "type": "uint32"
+        "signed": False,
+        "scale": 1000,
+        "device_class": "energy",
+        "state_class": "total_increasing"
     },
     "export_energy": {
         "name": "Export Energie",
+        "address": 344,
         "unit": "kWh",
-        "address": 0x0002,
-        "type": "uint32"
+        "signed": False,
+        "scale": 1000,
+        "device_class": "energy",
+        "state_class": "total_increasing"
     },
     "active_power": {
         "name": "Wirkleistung",
+        "address": 52,
         "unit": "W",
-        "address": 0x0004,
-        "type": "int32"
+        "signed": True,
+        "scale": 1,
+        "device_class": "power",
+        "state_class": "measurement"
     }
 }
