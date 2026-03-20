@@ -1,7 +1,7 @@
 {
   "domain": "pac2200",
   "name": "SENTRON PAC2200",
-  "version": "B0.2",
+  "version": "0.0.3",
   "requirements": ["pymodbus>=3.0.0"],
   "config_flow": true,
   "iot_class": "local_polling"
