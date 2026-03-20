@@ -1,6 +1,6 @@
 DOMAIN = "pac2200"
-
 DEFAULT_PORT = 502
+UNIT_ID = 1
 
 SENSORS = {
     "import_energy": {
