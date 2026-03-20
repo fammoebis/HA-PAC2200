@@ -21,22 +21,21 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
         for key, cfg in SENSORS.items():
             try:
-                value = client.read_register(
+                value = client.read_value(
                     cfg["address"],
-                    signed=cfg["signed"],
-                    unit=1  # ⚠️ ggf. anpassen!
+                    data_type=cfg["type"],
+                    unit=1
                 )
 
                 if value is not None:
-                    value = value / cfg["scale"]
+                    value = value * cfg["scale"]
 
                 data[key] = value
 
             except Exception as e:
-                _LOGGER.error(f"Fehler beim Lesen {key}: {e}")
+                _LOGGER.error(f"Fehler bei {key}: {e}")
                 data[key] = None
 
-        _LOGGER.debug(f"PAC2200 DATA: {data}")
         return data
 
     coordinator = DataUpdateCoordinator(

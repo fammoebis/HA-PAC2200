@@ -5,27 +5,27 @@ DEFAULT_PORT = 502
 SENSORS = {
     "import_energy": {
         "name": "Import Energie",
-        "address": 342,
+        "address": 801,
         "unit": "kWh",
-        "signed": False,
-        "scale": 1000,
+        "type": "float64",
+        "scale": 0.001,
         "device_class": "energy",
         "state_class": "total_increasing"
     },
     "export_energy": {
         "name": "Export Energie",
-        "address": 344,
+        "address": 809,
         "unit": "kWh",
-        "signed": False,
-        "scale": 1000,
+        "type": "float64",
+        "scale": 0.001,
         "device_class": "energy",
         "state_class": "total_increasing"
     },
     "active_power": {
         "name": "Wirkleistung",
-        "address": 52,
+        "address": 65,
         "unit": "W",
-        "signed": True,
+        "type": "float32",
         "scale": 1,
         "device_class": "power",
         "state_class": "measurement"
