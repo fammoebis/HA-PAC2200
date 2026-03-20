@@ -1,44 +1,38 @@
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.entity import DeviceInfo
 from .const import DOMAIN, SENSORS
+from .modbus_controller import PAC2200Client
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    coordinator = hass.data[DOMAIN][entry.entry_id]
+    host = entry.data["host"]
+    port = entry.data["port"]
 
-    entities = [
-        Pac2200Sensor(coordinator, name, unit)
-        for name, _, unit in SENSORS
-    ]
+    client = PAC2200Client(host, port)
 
-    async_add_entities(entities)
+    sensors = []
+    for key, cfg in SENSORS.items():
+        sensors.append(PAC2200Sensor(client, key, cfg))
+
+    async_add_entities(sensors, True)
 
 
-class Pac2200Sensor(SensorEntity):
-    def __init__(self, coordinator, name, unit):
-        self.coordinator = coordinator
-        self._name = name
-        self._unit = unit
+class PAC2200Sensor(SensorEntity):
+    def __init__(self, client, key, cfg):
+        self.client = client
+        self._attr_name = cfg["name"]
+        self._attr_native_unit_of_measurement = cfg["unit"]
+        self.address = cfg["address"]
+        self.key = key
+        self._attr_unique_id = f"pac2200_{key}"
 
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def native_unit_of_measurement(self):
-        return self._unit
-
-    @property
-    def state(self):
-        return self.coordinator.data.get(self._name)
+    def update(self):
+        value = self.client.read_register(self.address)
+        self._attr_native_value = value
 
     @property
     def device_info(self):
         return DeviceInfo(
-            identifiers={(DOMAIN, self.coordinator.host)},
-            name="Siemens PAC2200",
-            manufacturer="Siemens",
-            model="PAC2200",
+            identifiers={(DOMAIN, "pac2200")},
+            name="SENTRON PAC2200",
+            manufacturer="Siemens"
         )
-
-    async def async_update(self):
-        await self.coordinator.async_request_refresh()
