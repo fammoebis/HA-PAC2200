@@ -1,0 +1,3 @@
+DOMAIN = "sentron_pac"
+DEFAULT_PORT = 502
+DEFAULT_SLAVE = 1

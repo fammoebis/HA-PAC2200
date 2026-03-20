@@ -1,0 +1,6 @@
+{
+  "name": "Siemens SENTRON PAC2200",
+  "content_type": "integration",
+  "domains": ["sentron_pac"],
+  "homeassistant": "2024.1.0"
+}
