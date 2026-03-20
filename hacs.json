@@ -1,5 +1,5 @@
 {
   "name": "PAC2200 Integration",
   "domain": "pac2200",
-  "homeassistant": "2024.6.0"
+  "content_in_root": false
 }
