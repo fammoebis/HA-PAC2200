@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import SCAN_INTERVAL
+from .const import SCAN_INTERVAL, REGISTERS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,8 +25,8 @@ class PacDataCoordinator(DataUpdateCoordinator):
             raise UpdateFailed(f"Fehler beim Lesen: {err}") from err
 
     def _read_data(self):
-        return {
-            "energy_in": self.client.read_value(801, "float64"),
-            "energy_out": self.client.read_value(809, "float64"),
-            "power": self.client.read_value(65, "float32"),
-        }
+        data = {}
+        for key, reg in REGISTERS.items():
+            value = self.client.read_value(reg["address"], reg["type"])
+            data[key] = value
+        return data

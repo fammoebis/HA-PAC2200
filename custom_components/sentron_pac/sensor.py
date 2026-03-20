@@ -1,35 +1,28 @@
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, REGISTERS
 
-
-SENSORS = [
-    {
-        "key": "energy_in",
+SENSORS = {
+    "energy_in": {
         "name": "Bezogene Energie",
         "unit": "kWh",
         "device_class": SensorDeviceClass.ENERGY,
         "state_class": SensorStateClass.TOTAL_INCREASING,
-        "scale": 0.001,
     },
-    {
-        "key": "energy_out",
+    "energy_out": {
         "name": "Abgegebene Energie",
         "unit": "kWh",
         "device_class": SensorDeviceClass.ENERGY,
         "state_class": SensorStateClass.TOTAL_INCREASING,
-        "scale": 0.001,
     },
-    {
-        "key": "power",
+    "power": {
         "name": "Leistung",
         "unit": "W",
         "device_class": SensorDeviceClass.POWER,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1.0,
     },
-]
+}
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -37,29 +30,32 @@ async def async_setup_entry(hass, entry, async_add_entities):
     coordinator = data["coordinator"]
 
     entities = [
-        PacSensor(coordinator, entry.entry_id, sensor)
-        for sensor in SENSORS
+        PacSensor(coordinator, entry.entry_id, key)
+        for key in SENSORS
     ]
 
     async_add_entities(entities)
 
 
 class PacSensor(CoordinatorEntity, SensorEntity):
-    def __init__(self, coordinator, entry_id, config):
+    def __init__(self, coordinator, entry_id, key):
         super().__init__(coordinator)
 
-        self._config = config
+        self._key = key
+        config = SENSORS[key]
+
         self._attr_name = config["name"]
-        self._attr_unique_id = f"{entry_id}_{config['key']}"
+        self._attr_unique_id = f"{entry_id}_{key}"
         self._attr_native_unit_of_measurement = config["unit"]
         self._attr_device_class = config["device_class"]
         self._attr_state_class = config["state_class"]
 
     @property
     def native_value(self):
-        value = self.coordinator.data.get(self._config["key"])
+        value = self.coordinator.data.get(self._key)
 
         if value is None:
             return None
 
-        return round(value * self._config["scale"], 2)
+        scale = REGISTERS[self._key]["scale"]
+        return round(value * scale, 2)

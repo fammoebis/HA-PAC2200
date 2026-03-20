@@ -24,6 +24,9 @@ class PAC2200Client:
     def read_value(self, address, data_type):
         with self._lock:
             try:
+                if not self.client.connected:
+                    self.client.connect()
+
                 count = 4 if data_type == "float64" else 2
 
                 result = self.client.read_input_registers(
