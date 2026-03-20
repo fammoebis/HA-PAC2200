@@ -1,4 +1,6 @@
 {
   "name": "Siemens PAC2200",
-  "content_in_root": false
+  "content_in_root": false,
+  "domains": ["pac2200"],
+  "iot_class": "local_polling"
 }
