@@ -3,7 +3,7 @@ from homeassistant import config_entries
 from .const import DOMAIN, DEFAULT_PORT
 from .modbus_controller import PAC2200Client
 
-class Pac2200ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
