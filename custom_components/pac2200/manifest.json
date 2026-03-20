@@ -1,7 +1,7 @@
 {
   "domain": "pac2200",
   "name": "SENTRON PAC2200",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "documentation": "https://github.com/YOURNAME/pac2200",
   "requirements": ["pymodbus>=3.0.0"],
   "config_flow": true,
