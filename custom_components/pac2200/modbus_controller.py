@@ -6,8 +6,12 @@ from pymodbus.constants import Endian
 class PAC2200Client:
     def __init__(self, host, port):
         self.client = ModbusTcpClient(host, port=port)
+        self.client.connect()
 
     def read_value(self, address, data_type="float32", unit=1):
+        if not self.client.connected:
+            self.client.connect()
+            
         # Anzahl Register bestimmen
         if data_type == "float32":
             count = 2

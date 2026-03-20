@@ -21,10 +21,11 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
         for key, cfg in SENSORS.items():
             try:
-                value = client.read_value(
+                value = await hass.async_add_executor_job(
+                    client.read_value,
                     cfg["address"],
-                    data_type=cfg["type"],
-                    unit=1
+                    cfg["type"],
+                    1
                 )
 
                 if value is not None:
@@ -55,6 +56,12 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
     async_add_entities(entities)
 
+    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = client
+
+async def async_unload_entry(hass, entry):
+    client = hass.data[DOMAIN].pop(entry.entry_id)
+    client.close()
+    return True
 
 class PAC2200Sensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry, key, cfg):
