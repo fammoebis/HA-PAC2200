@@ -7,5 +7,5 @@
   "config_flow": true,
   "iot_class": "local_polling",
   "icon": "mdi:flash",
-  "logo": "logo.png"
+  "logo": "pac2200.png"
 }
