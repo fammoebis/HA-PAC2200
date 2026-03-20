@@ -1,11 +1,9 @@
 {
   "domain": "pac2200",
-  "name": "PAC2200 Grid Meter",
-  "version": "1.3.0",
-  "documentation": "https://github.com/YOUR_GITHUB/ha-pac2200",
-  "issue_tracker": "https://github.com/YOUR_GITHUB/ha-pac2200/issues",
-  "config_flow": true,
-  "iot_class": "local_polling",
-  "requirements": ["pymodbus==3.6.9"],
-  "codeowners": ["@YOUR_GITHUB"]
+  "name": "Siemens PAC2200",
+  "version": "1.0.0",
+  "documentation": "https://github.com/deinrepo/pac2200",
+  "dependencies": [],
+  "codeowners": ["@du"],
+  "requirements": []
 }

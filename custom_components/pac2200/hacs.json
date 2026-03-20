@@ -1,0 +1,6 @@
+{
+  "name": "Siemens PAC2200",
+  "content_in_root": false,
+  "render_readme": true,
+  "country": ["DE", "EU"]
+}

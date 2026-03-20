@@ -1,8 +1,9 @@
 DOMAIN = "pac2200"
-
-CONF_HOST = "host"
-CONF_PORT = "port"
-
 DEFAULT_PORT = 502
 DEFAULT_SLAVE = 1
-SCAN_INTERVAL = 10
+
+SENSORS = [
+    ("Voltage L1", 0, "V"),
+    ("Current L1", 6, "A"),
+    ("Active Power", 12, "W"),
+]

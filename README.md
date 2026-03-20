@@ -1,30 +1,28 @@
-# PAC2200 Home Assistant Integration
-
-V1.3
-
-Custom integration for Siemens SENTRON PAC2200 energy meters via Modbus TCP.
+A custom HACS integration for the Siemens SENTRON PAC2200 using Modbus TCP.
 
 ## Features
-
-- ✅ Auto-discovery (network scan)
-- ✅ Device validation (PAC2200 detection)
-- ✅ Energy Dashboard support
-- ✅ Robust reconnect/backoff logic
-- ✅ Multiple device support
+- Modbus TCP support
+- UI configuration (Config Flow)
+- Multiple sensors (Voltage, Current, Power)
+- Easy HACS installation
 
 ## Installation (HACS)
-
 1. Open HACS
 2. Add custom repository:
-   https://github.com/fammoebis/HA-PAC2200.git
-3. Install "PAC2200"
-4. Restart Home Assistant
+   https://github.com/YOUR_USERNAME/pac2200-hacs
+3. Select category: Integration
+4. Install and restart Home Assistant
 
-## Setup
+## Configuration
+After installation:
+- Go to Settings → Devices & Services
+- Add "PAC2200"
+- Enter:
+  - Host (IP address)
+  - Port (default: 502)
+  - Slave ID (default: 1)
 
-Go to:
-Settings → Devices & Services → Add Integration → PAC2200
-
-## Requirements
-
-- PAC2200 reachable via Modbus TCP (port 502)
+## Supported Sensors
+- Voltage L1
+- Current L1
+- Active Power
