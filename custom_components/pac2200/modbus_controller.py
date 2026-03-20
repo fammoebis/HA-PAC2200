@@ -35,8 +35,8 @@ class PAC2200Client:
         # Siemens PAC nutzt meist Big Endian für Byte und Word
         decoder = BinaryPayloadDecoder.fromRegisters(
             result.registers,
-            byteorder=Endian.BIG,
-            wordorder=Endian.BIG
+            byteorder=pymodbus.framer.Endian.BIG,
+            wordorder=pymodbus.framer.Endian.BIG
         )
 
         if data_type == "float32":
