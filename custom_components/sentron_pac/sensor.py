@@ -59,3 +59,4 @@ class PacSensor(CoordinatorEntity, SensorEntity):
 
         scale = REGISTERS[self._key]["scale"]
         return round(value * scale, 2)
+    
