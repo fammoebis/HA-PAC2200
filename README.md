@@ -9,7 +9,7 @@ A custom HACS integration for the Siemens SENTRON PAC2200 using Modbus TCP.
 ## Installation (HACS)
 1. Open HACS
 2. Add custom repository:
-   https://github.com/YOUR_USERNAME/pac2200-hacs
+   https://github.com/fammoebis/HA-PAC2200
 3. Select category: Integration
 4. Install and restart Home Assistant
 
