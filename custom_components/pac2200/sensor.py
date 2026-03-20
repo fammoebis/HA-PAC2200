@@ -12,6 +12,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
     async_add_entities(entities)
 
+
 class Pac2200Sensor(SensorEntity):
     def __init__(self, coordinator, name, unit):
         self.coordinator = coordinator
