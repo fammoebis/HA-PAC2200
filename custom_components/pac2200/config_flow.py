@@ -16,7 +16,3 @@ class Pac2200ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Optional("slave", default=DEFAULT_SLAVE): int,
             }),
         )
-
-    async def async_step_zeroconf(self, discovery_info):
-        host = discovery_info.get("host")
-        return await self.async_step_user({"host": host})
