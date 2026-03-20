@@ -1,7 +1,9 @@
 from homeassistant import config_entries
 import voluptuous as vol
+
 from .const import DOMAIN, DEFAULT_PORT
 from .modbus_controller import PAC2200Client
+
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
@@ -23,8 +25,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     title=f"PAC2200 ({user_input['host']})",
                     data=user_input
                 )
-            else:
-                errors["base"] = "cannot_connect"
+
+            errors["base"] = "cannot_connect"
 
         return self.async_show_form(
             step_id="user",

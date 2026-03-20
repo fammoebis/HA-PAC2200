@@ -1,23 +1,29 @@
 import logging
 from datetime import timedelta
+
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, CoordinatorEntity
+from homeassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    CoordinatorEntity,
+)
 from homeassistant.helpers.entity import DeviceInfo
 
 from .const import DOMAIN, SENSORS
 
 _LOGGER = logging.getLogger(__name__)
 
+
 async def async_setup_entry(hass, entry, async_add_entities):
     client = hass.data[DOMAIN][entry.entry_id]
 
     async def async_update_data():
         data = {}
+
         for key, cfg in SENSORS.items():
             val = await hass.async_add_executor_job(
                 client.read_value,
                 cfg["address"],
-                cfg["type"]
+                cfg["type"],
             )
 
             if val is not None:
@@ -37,10 +43,12 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
     await coordinator.async_config_entry_first_refresh()
 
-    async_add_entities([
-        PAC2200Sensor(coordinator, entry, key, cfg)
-        for key, cfg in SENSORS.items()
-    ])
+    async_add_entities(
+        [
+            PAC2200Sensor(coordinator, entry, key, cfg)
+            for key, cfg in SENSORS.items()
+        ]
+    )
 
 
 class PAC2200Sensor(CoordinatorEntity, SensorEntity):
@@ -59,7 +67,7 @@ class PAC2200Sensor(CoordinatorEntity, SensorEntity):
             identifiers={(DOMAIN, entry.entry_id)},
             name="Siemens PAC2200",
             manufacturer="Siemens",
-            model="PAC2200"
+            model="PAC2200",
         )
 
     @property

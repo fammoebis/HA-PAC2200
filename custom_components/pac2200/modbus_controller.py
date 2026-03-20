@@ -6,6 +6,7 @@ from pymodbus.constants import Endian
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class PAC2200Client:
     def __init__(self, host, port):
         self.host = host
@@ -25,9 +26,14 @@ class PAC2200Client:
                     _LOGGER.error("Modbus Verbindung fehlgeschlagen")
                     return None
 
-                # ggf. anpassen: address - 1
+                # ggf. address - 1 testen!
                 count = 4 if data_type == "float64" else 2
-                result = self.client.read_input_registers(address, count, slave=1)
+
+                result = self.client.read_input_registers(
+                    address,
+                    count,
+                    slave=1
+                )
 
                 if result.isError():
                     _LOGGER.error("Modbus Fehler bei Adresse %s", address)
