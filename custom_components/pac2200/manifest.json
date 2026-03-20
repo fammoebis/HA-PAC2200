@@ -1,9 +1,11 @@
 {
   "domain": "pac2200",
   "name": "Siemens PAC2200",
-  "version": "1.0.0",
-  "documentation": "https://github.com/deinrepo/pac2200",
+  "version": "1.1.0",
+  "documentation": "https://github.com/fammoebis/HA-PAC2200",
   "dependencies": [],
-  "codeowners": ["@du"],
-  "requirements": []
+  "codeowners": ["@fammoebis"],
+  "requirements": ["pymodbus>=3.0.0"],
+  "config_flow": true,
+  "zeroconf": []
 }

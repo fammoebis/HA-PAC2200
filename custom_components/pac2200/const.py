@@ -1,6 +1,7 @@
 DOMAIN = "pac2200"
 DEFAULT_PORT = 502
 DEFAULT_SLAVE = 1
+SCAN_INTERVAL = 10
 
 SENSORS = [
     ("Voltage L1", 0, "V"),
