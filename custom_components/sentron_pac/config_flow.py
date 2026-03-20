@@ -1,54 +1,34 @@
-import logging
 import voluptuous as vol
 from homeassistant import config_entries
-from pymodbus.client import ModbusTcpClient
+from homeassistant.const import CONF_HOST, CONF_PORT
 
-from .const import DOMAIN, DEFAULT_PORT, DEFAULT_SLAVE
+from .const import DOMAIN
 
-_LOGGER = logging.getLogger(__name__)
+CONF_REGISTER = "register"
 
 
-class SentronConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
         errors = {}
 
         if user_input is not None:
-            host = user_input["host"]
+            return self.async_create_entry(
+                title=f"SENTRON {user_input[CONF_HOST]}",
+                data=user_input,
+            )
 
-            def test_connection():
-                client = ModbusTcpClient(host, port=DEFAULT_PORT, timeout=3)
-                try:
-                    if not client.connect():
-                        return False
-                    return True
-                finally:
-                    client.close()
-
-            try:
-                ok = await self.hass.async_add_executor_job(test_connection)
-
-                if not ok:
-                    errors["base"] = "cannot_connect"
-                else:
-                    return self.async_create_entry(
-                        title=f"PAC2200 ({host})",
-                        data={
-                            "host": host,
-                            "port": DEFAULT_PORT,
-                            "slave": DEFAULT_SLAVE,
-                        },
-                    )
-
-            except Exception:
-                _LOGGER.exception("Config Flow Fehler")
-                errors["base"] = "unknown"
+        data_schema = vol.Schema(
+            {
+                vol.Required(CONF_HOST): str,
+                vol.Optional(CONF_PORT, default=502): int,
+                vol.Required(CONF_REGISTER, default=0): int,
+            }
+        )
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema({
-                vol.Required("host"): str,
-            }),
+            data_schema=data_schema,
             errors=errors,
         )
