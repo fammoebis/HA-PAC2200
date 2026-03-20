@@ -8,35 +8,31 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class PAC2200Client:
-    def __init__(self, host, port):
+    def __init__(self, host, port, slave):
         self.host = host
         self.port = port
+        self.slave = slave
         self.client = ModbusTcpClient(host, port=port)
         self._lock = threading.Lock()
 
     def connect(self):
-        if not self.client.connected:
-            return self.client.connect()
-        return True
+        return self.client.connect()
+
+    def close(self):
+        self.client.close()
 
     def read_value(self, address, data_type):
         with self._lock:
             try:
-                if not self.connect():
-                    _LOGGER.error("Modbus Verbindung fehlgeschlagen")
-                    return None
-
-                # ggf. address - 1 testen!
                 count = 4 if data_type == "float64" else 2
 
                 result = self.client.read_input_registers(
                     address,
                     count,
-                    slave=1
+                    slave=self.slave
                 )
 
                 if result.isError():
-                    _LOGGER.error("Modbus Fehler bei Adresse %s", address)
                     return None
 
                 decoder = BinaryPayloadDecoder.fromRegisters(
@@ -50,8 +46,5 @@ class PAC2200Client:
                 return decoder.decode_32bit_float()
 
             except Exception as e:
-                _LOGGER.error("Fehler bei Adresse %s: %s", address, e)
+                _LOGGER.error("Modbus Fehler: %s", e)
                 return None
-
-    def close(self):
-        self.client.close()
