@@ -1,5 +1,7 @@
 # PAC2200 Home Assistant Integration
 
+V1.3
+
 Custom integration for Siemens SENTRON PAC2200 energy meters via Modbus TCP.
 
 ## Features
